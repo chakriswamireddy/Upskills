@@ -6,6 +6,6 @@ import { userSchema } from "./userSchema";
 
 export const studentSchema = pgTable('students',{
     id: uuid('id').defaultRandom().primaryKey(),
-    userId: uuid('user_id').references(() => userSchema.id),
+    userId: uuid('user_id').references(() => userSchema.id, {onDelete:'cascade'}),
 })
 

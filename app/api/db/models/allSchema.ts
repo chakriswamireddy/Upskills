@@ -1,4 +1,4 @@
-export * from "./todoSchema";
+
 export * from './courseSchema';
 export * from './enrollments';
 export * from './instructorsSchema';

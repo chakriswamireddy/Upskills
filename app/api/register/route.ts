@@ -7,7 +7,7 @@ import { studentSchema } from "../db/models/studentSchema";
  
 
 export async function POST(req: Request) {
-  const { email, password, name } = await req.json();
+  const { email, password, name ,role} = await req.json();
 
   const hashed = await bcrypt.hash(password, 10);
 
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       .values({
         email,
         name,
-        role: "STUDENT",
+        role: role || "STUDENT",
         password: hashed
       })
       .returning();

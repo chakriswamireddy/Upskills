@@ -6,11 +6,11 @@ export const enrollments = pgTable('enrollments', {
     id: uuid('id').defaultRandom().primaryKey(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     studentId: uuid("student_id")
-        .references(() => studentSchema.id)
+        .references(() => studentSchema.id,{onDelete:'cascade'})
         .notNull(),
 
     courseId: uuid("course_id")
-        .references(() => courseSchema.id)
+        .references(() => courseSchema.id, {onDelete:'cascade'})
         .notNull()
 },
     (table) => ({
