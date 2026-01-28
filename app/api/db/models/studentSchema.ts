@@ -5,7 +5,7 @@ import { userSchema } from "./userSchema";
 
 
 export const studentSchema = pgTable('students',{
-    id: uuid('id').primaryKey(),
+    id: uuid('id').defaultRandom().primaryKey(),
     userId: uuid('user_id').references(() => userSchema.id),
 })
 

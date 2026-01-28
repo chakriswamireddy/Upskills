@@ -11,12 +11,12 @@ export const userRoleEnum = pgEnum("user_role", [
 
 export const userSchema = pgTable(
     'users',{
-        id: uuid('id').primaryKey(),
+      id: uuid('id').defaultRandom().primaryKey(),
         name: text('name'),
         email: text('email').unique(),
+        password: text("password").notNull(), 
         role: userRoleEnum('role').notNull(),
         createdAt: timestamp("created_at").defaultNow().notNull()
-
         
 
     },
