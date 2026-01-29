@@ -97,7 +97,7 @@ export const PUT = withErrorHandling(async (req: Request) => {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        console.error("Update lesson error:", err);
+        // .error("Update lesson error:", err);
 
         return NextResponse.json(
             { error: "Internal server error" },

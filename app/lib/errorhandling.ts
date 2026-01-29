@@ -15,7 +15,7 @@ export function withErrorHandling(handler: Handler) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
 
-      console.error("API Error:", err);
+      // .error("API Error:", err);
 
       return NextResponse.json(
         { error: "Internal server error" },

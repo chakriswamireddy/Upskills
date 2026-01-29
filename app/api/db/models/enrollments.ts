@@ -16,6 +16,5 @@ export const enrollments = pgTable('enrollments', {
     (table) => ({
         uniqueEnroll: unique().on(table.studentId, table.courseId)
     })
-
 );
 

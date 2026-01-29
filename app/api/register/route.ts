@@ -4,36 +4,57 @@ import jwt from "jsonwebtoken";
 import { db } from "../db/drizzle";
 import { userSchema } from "../db/models/userSchema";
 import { studentSchema } from "../db/models/studentSchema";
- 
+import { instructorsSchema } from "../db/models/instructorsSchema";
+import type { RoleType } from "@/lib/types";
+import { eq } from "drizzle-orm";
+
+
+export const roleToSchema: Partial<Record<RoleType, any>> = {
+  STUDENT: studentSchema,
+  INSTRUCTOR: instructorsSchema,
+};
+
 
 export async function POST(req: Request) {
-  const { email, password, name ,role} = await req.json();
+  const body = await req.json();
+  const role = body.role as RoleType;
+
+  const { email, password, name } = body;
+  // .log(body, "  bodyyy ")
+
 
   const hashed = await bcrypt.hash(password, 10);
 
-  const token = await db.transaction(async (tx) => {
-    const [user] = await tx
-      .insert(userSchema)
-      .values({
-        email,
-        name,
-        role: role || "STUDENT",
-        password: hashed
-      })
-      .returning();
+  const [user] = await db
+    .insert(userSchema)
+    .values({
+      email,
+      name,
+      role: role || "STUDENT",
+      password: hashed,
+    })
+    .returning();
 
-    await tx.insert(studentSchema).values({
-      userId: user.id
-    });
+  try {
+    const targetSchema = roleToSchema[role];
 
-    return jwt.sign(
-      { userId: user.id, role: user.role },
-      process.env.NEXT_JWT_SECRET!,
-      { expiresIn: "7d" }
-    );
-  });
+    if (targetSchema) {
+      await db.insert(targetSchema).values({
+        userId: user.id,
+      });
+    }
+  } catch (err) {
+    await db.delete(userSchema).where(eq(userSchema.id, user.id));
+    throw err;
+  }
 
   const res = NextResponse.json({ success: true });
+
+  const token = jwt.sign(
+    { userId: user.id, role: user.role },
+    process.env.NEXT_JWT_SECRET!,
+    { expiresIn: "7d" }
+  );
 
   res.cookies.set("session", token, {
     httpOnly: true,

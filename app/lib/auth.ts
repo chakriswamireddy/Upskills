@@ -1,3 +1,5 @@
+'use server'
+
 import jwt from "jsonwebtoken";
 
 import { cookies } from "next/headers";
@@ -6,6 +8,7 @@ import { courseSchema } from "../api/db/models/courseSchema";
 import { db } from "../api/db/drizzle";
 import { instructorsSchema } from "../api/db/models/instructorsSchema";
 import { studentSchema } from "../api/db/models/studentSchema";
+import { redirect } from "next/navigation";
  
 
 export type SessionUser = {
@@ -13,23 +16,35 @@ export type SessionUser = {
   role: "STUDENT" | "INSTRUCTOR" | "ADMIN";
 };
 
-export function getSessionUser(cookie?: string): SessionUser | null {
-  if (!cookie) return null;
+export async function getSessionUser(): Promise<SessionUser | null> {
 
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get("session")?.value;
+
+  
+  if (!cookie) return null;
+  
   try {
-    return jwt.verify(cookie, process.env.JWT_SECRET!) as SessionUser;
+    // // .log("cokies",  jwt.verify(cookie, process.env.NEXT_JWT_SECRET!))
+    return jwt.verify(cookie, process.env.NEXT_JWT_SECRET!) as SessionUser;
   } catch {
     return null;
   }
 }
 
 
+export async function logout(role: string) {
+  (await cookies()).delete("session");
+  redirect(`/auth/${role.toLowerCase()}`);
+}
+
+
+
 
 export async function authorizeCourseOwnerOrAdmin(courseId: string) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
 
-  const user = getSessionUser(session);
+
+  const user = await getSessionUser();
 
   if (!user) {
     throw new Error("UNAUTHORIZED");
@@ -58,10 +73,8 @@ export async function authorizeCourseOwnerOrAdmin(courseId: string) {
 
 
 export async function isStudentOrAdmin() {
-    const cookieStore = await cookies();
-    const session = cookieStore.get("session")?.value;
   
-    const user = getSessionUser(session);
+    const user =  await getSessionUser();
   
     if (!user) throw new Error("UNAUTHORIZED");
   
