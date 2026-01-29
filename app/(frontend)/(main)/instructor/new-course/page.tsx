@@ -1,5 +1,6 @@
+import CourseForm from '@/app/(frontend)/components/CourseForm'
 import React from 'react'
-import CourseForm from '../../components/CourseForm'
+ 
 
 function page() {
   return (
