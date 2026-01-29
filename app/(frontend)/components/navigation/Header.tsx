@@ -25,6 +25,8 @@ const navLinks = [
 export async function Header() {
   const user = await getSessionUser();
 
+  if (!user?.userId) redirect('/auth/student');
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">

@@ -29,6 +29,13 @@
       "when": 1769667460813,
       "tag": "0003_light_inhumans",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1769695302220,
+      "tag": "0004_opposite_red_skull",
+      "breakpoints": true
     }
   ]
 }

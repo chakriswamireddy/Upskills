@@ -34,8 +34,10 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 
 
 export async function logout(role: string) {
+  const rolehere = role.toLowerCase() || 'student';
   (await cookies()).delete("session");
-  redirect(`/auth/${role.toLowerCase()}`);
+  await fetch('/api/logout');
+  redirect(`/auth/${rolehere}`);
 }
 
 

@@ -101,7 +101,7 @@ export const PUT = withErrorHandling(async function PUT(req: Request) {
 
   const body = await req.json();
 
-  const { name, ...bio } = body;
+  const { name, bio } = body;
 
   const user = await db.query.userSchema.findFirst({
     where: eq(userSchema.id, cookieUser.userId),
@@ -130,7 +130,7 @@ export const PUT = withErrorHandling(async function PUT(req: Request) {
     if (bio) {
       await db
         .update(studentSchema)
-        .set({ ...bio })
+        .set({ bio })
         .where(eq(studentSchema.id, student.id));
     }
 
@@ -148,7 +148,7 @@ export const PUT = withErrorHandling(async function PUT(req: Request) {
     if (bio) {
       await db
         .update(instructorsSchema)
-        .set({ ...bio })
+        .set({ bio })
         .where(eq(instructorsSchema.id, instructor.id));
     }
 
