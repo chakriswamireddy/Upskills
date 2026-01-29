@@ -120,7 +120,7 @@ export default function CoursesDB({
     : "Explore All Courses";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className=" bg-background">
       <div className="sticky top-0 z-10 bg-background ">
         <div className="max-w-7xl mx-auto p-6 space-y-4">
           <h1 className="text-3xl font-bold"> {heading}</h1>

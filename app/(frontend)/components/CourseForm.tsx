@@ -177,7 +177,7 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className=" py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <Card className="border-purple-200  py-0 shadow-2xl">
           <CardHeader className="  bg-gradient-to-r py-4 from-indigo-500 to-purple-600 text-white rounded-t-lg">

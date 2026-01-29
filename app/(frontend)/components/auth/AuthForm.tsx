@@ -104,14 +104,14 @@ export function AuthForm({ role }: AuthFormProps) {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4">
+    <div className=" w-full mt-12 mb-6 flex items-center justify-center ">
       <Card className="w-full max-w-md border border-border/50 bg-card/80 backdrop-blur shadow-xl">
-        <CardContent className="p-10">
+        <CardContent className=" py-4 px-10">
           <p className="text-center   mb-4 text-xl md:text-3xl font-extrabold tracking-tight bg-linear-to-r from-primary to-purple-500 bg-clip-text text-transparent">
             UpSkills
           </p>
 
-          <div className="space-y-3 text-center mb-8">
+          <div className="space-y-2 text-center mb-8">
             <Badge
               variant="secondary"
               className="mx-auto px-4 py-1 text-xs font-medium tracking-wide uppercase"

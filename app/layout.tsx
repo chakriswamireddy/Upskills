@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Header } from "./(frontend)/components/navigation/Header";
 import { Toaster } from "@/components/ui/sonner";
 import ReduxProvider from "./(frontend)/ReduxProvider";
+import Footer from "./(frontend)/components/navigation/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <ReduxProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Toaster />
           </ThemeProvider>
         </ReduxProvider>
+        <Footer/>
       </body>
     </html>
   );
