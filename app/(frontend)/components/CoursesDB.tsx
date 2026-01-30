@@ -211,7 +211,7 @@ export default function CoursesDB({
                   href={`/instructor/update-course/${course.id}`}
                   className=" text-sm flex items-center gap-1 absolute right-3 bottom-3 rounded-full bg-primary border-black/70 px-3 py-1 text-xs font-medium text-white backdrop-blur"
                 >
-                  Edit <Edit className="size-5" />
+                  Edit <Edit className="size-4" />
                 </Link>
               )}
             </div>
