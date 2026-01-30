@@ -14,6 +14,7 @@ import { redirect } from "next/navigation";
 export type SessionUser = {
   userId: string;
   role: "STUDENT" | "INSTRUCTOR" | "ADMIN";
+  roleTypeId: string;
 };
 
 export async function getSessionUser(): Promise<SessionUser | null> {

@@ -7,7 +7,7 @@ async function page() {
 
   return (
     <div>
-      {user && <CoursesDB storeKey={"enrolls"} loginRole={user?.role} /> }
+      {user && <CoursesDB storeKey={"enrolls"} loginRole={user?.role} roleTypeId ={user.roleTypeId} /> }
     </div>
   );
 }

@@ -36,6 +36,9 @@ export async function GET(req: Request) {
     const result = await db
       .select({
         id: courseSchema.id,
+        thumbnail: courseSchema.thumbnail,
+        level: courseSchema.level,
+
         title: courseSchema.title,
         description: courseSchema.description,
         duration: courseSchema.duration,
@@ -142,6 +145,8 @@ export async function GET(req: Request) {
       id: courseSchema.id,
       title: courseSchema.title,
       thumbnail: courseSchema.thumbnail,
+      instructorId: courseSchema.instructorId,
+
 
       description: courseSchema.description,
       instructorName: userSchema.name,
@@ -238,11 +243,13 @@ export async function PUT(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
+
+
   if (!id) {
     return NextResponse.json({ error: "Course id required" }, { status: 400 });
   }
 
-  const { title } = await req.json();
+  const { title, thumbnail, description, duration, price, outcomes, prequisites, category, level } = await req.json();
 
   try {
 
@@ -250,7 +257,7 @@ export async function PUT(req: Request) {
 
     const [course] = await db
       .update(courseSchema)
-      .set({ title })
+      .set({ title, thumbnail, description, duration, price, outcomes, prequisites, category, level })
       .where(eq(courseSchema.id, id))
       .returning();
 
@@ -263,7 +270,7 @@ export async function PUT(req: Request) {
     if (err.message === "NOT_FOUND")
       return NextResponse.json({ error: "Course not found" }, { status: 404 });
 
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized", message:err }, { status: 401 });
   }
 
 }

@@ -14,7 +14,8 @@ export interface Course {
   prequisites?:string,
   outcomes?:string,
   duration?:string,
-  amIEnrolled ?:boolean
+  amIEnrolled ?:boolean,
+  instructorId :string,
 }
 
 interface CoursesState {

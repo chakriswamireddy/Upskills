@@ -41,7 +41,7 @@ const courseSchema = z.object({
     .min(20, "Description must be at least 20 characters")
     .max(500, "Description must not exceed 500 characters"),
   level: z.enum(["Beginner", "Intermediate", "Advanced"]),
-  lessonsCount: z.number().optional(),
+  // lessonsCount: z.number().optional(),
   // .min(1, "Must have at least 1 lesson")
   // .max(200, "Cannot exceed 200 lessons"),
   duration: z
@@ -58,7 +58,7 @@ const courseSchema = z.object({
   category: z.string().optional(),
   //   .min(1, "Category is required"),
   prerequisites: z.string().optional(),
-  learningOutcomes: z.string().optional(),
+  outcomes: z.string().optional(),
   thumbnail: z.string().url().optional(),
 });
 
@@ -107,13 +107,13 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
     defaultValues: course || {
       title: "",
       description: "",
-      //   level: "Beginner",
-      lessonsCount: 1,
+        // level: "",
+      // lessonsCount: 1,
       duration: "",
       price: 0,
       category: "",
       prerequisites: "",
-      learningOutcomes: "",
+      outcomes: "",
     },
   });
 
@@ -123,31 +123,15 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  // Handle thumbnail upload
-  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert("File size must be less than 5MB");
-        return;
-      }
-
-      setThumbnail(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setThumbnailPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  useEffect(() => {
+    if (course) {
+      setValue("level", course.level);
+      setValue("category", course.category);
     }
-  };
-
-  const removeThumbnail = () => {
-    setThumbnail(null);
-    setThumbnailPreview(null);
-  };
+  }, [course]);
 
   const onFormSubmit = async (data: CourseFormData) => {
-    // .log("submittinnhg");
+    console.log("submittinnhg");
     setLoading(true);
     try {
       if (mode == "create") {
@@ -165,6 +149,7 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
             : "Course Updated Successfully"
         },`,
       });
+      router.push("/all-courses");
     } catch (error) {
       // .error("Form submission error:", error);
     } finally {
@@ -439,18 +424,18 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
 
                 <div className="space-y-2">
                   <Label
-                    htmlFor="learningOutcomes"
+                    htmlFor="outcomes"
                     className="text-sm font-medium text-slate-700"
                   >
                     Learning Outcomes{" "}
                     <span className="text-slate-500">(Optional)</span>
                   </Label>
                   <Textarea
-                    id="learningOutcomes"
+                    id="outcomes"
                     placeholder="Build full-stack applications, Deploy to cloud, Master React hooks..."
                     rows={4}
                     className="border-purple-200 focus-visible:ring-purple-400 resize-none"
-                    {...register("learningOutcomes")}
+                    {...register("outcomes")}
                   />
                   <p className="text-xs text-slate-500">
                     What will students be able to do after completing this
@@ -541,7 +526,7 @@ export default function CourseForm({ mode, course }: CourseFormProps) {
 //       price: 4999,
 //       category: "Web Development",
 //       prerequisites: "Basic JavaScript knowledge",
-//       learningOutcomes: "Build full-stack applications",
+//       outcomes: "Build full-stack applications",
 //     };
 
 //     return (

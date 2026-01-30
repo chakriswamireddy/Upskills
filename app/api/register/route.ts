@@ -50,8 +50,21 @@ export async function POST(req: Request) {
 
   const res = NextResponse.json({ success: true });
 
+
+  let userRoleType;
+
+  if (user.role == 'INSTRUCTOR') {
+    userRoleType = await db.query.instructorsSchema.findFirst({
+      where: eq(instructorsSchema.userId, user.id)
+    });
+  } else if (user.role =='STUDENT') {
+    userRoleType = await db.query.userSchema.findFirst({
+      where: eq(studentSchema.userId, user.id)
+    });
+  }
+
   const token = jwt.sign(
-    { userId: user.id, role: user.role },
+    { userId: user.id, role: user.role ,roleTypeId: userRoleType?.id  },
     process.env.NEXT_JWT_SECRET!,
     { expiresIn: "7d" }
   );
