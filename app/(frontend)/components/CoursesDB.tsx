@@ -18,7 +18,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Search, BookOpen, User, Clock, Edit, PlusCircle, Gauge } from "lucide-react";
+import {
+  Search,
+  BookOpen,
+  User,
+  Clock,
+  Edit,
+  PlusCircle,
+  Gauge,
+} from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/(frontend)/store/hooks";
 import { fetchCourses } from "@/app/(frontend)/store/slices/coursesSlice";
 import {
@@ -128,22 +136,27 @@ export default function CoursesDB({
         <div className="max-w-7xl mx-auto p-6 space-y-4">
           <h1 className="text-3xl font-bold"> {heading}</h1>
 
-          <div className="flex justify-between" >
+          <div className="flex justify-between">
+            <div className="relative max-w-xl">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder={`Search courses ${
+                  pathname.includes("teach") ? "" : "or instructors"
+                } `}
+                className="pl-10"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
 
-          <div className="relative max-w-xl">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={`Search courses ${pathname.includes('teach') ? "":"or instructors"} `}
-              className="pl-10"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          <Link className="border rounded-xl flex items-center  gap-2 text-sm text-primary p-2 hover:bg-primary transition-all hover:text-background border-primary  "
-           href={`/instructor/new-course`} > <span></span>  New  Course <PlusCircle />
-          </Link>
-
+            {loginRole == "INSTRUCTOR" && (
+              <Link
+                className="border rounded-xl flex items-center  gap-2 text-sm text-primary p-2 hover:bg-primary transition-all hover:text-background border-primary  "
+                href={`/instructor/new-course`}
+              >
+                <span></span> New Course <PlusCircle />
+              </Link>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -206,14 +219,15 @@ export default function CoursesDB({
                 ₹{course.price}
               </div>
               {/* {roleTypeId} { loginRole} {course.instructorId} */}
-              {loginRole == "INSTRUCTOR" && course.instructorId === roleTypeId  && (
-                <Link
-                  href={`/instructor/update-course/${course.id}`}
-                  className="  flex items-center gap-1 absolute right-3 bottom-3 rounded-full bg-primary border-black/70 px-3 py-1 text-xs font-medium text-white backdrop-blur"
-                >
-                  Edit <Edit className="size-4" />
-                </Link>
-              )}
+              {loginRole == "INSTRUCTOR" &&
+                course.instructorId === roleTypeId && (
+                  <Link
+                    href={`/instructor/update-course/${course.id}`}
+                    className="  flex items-center gap-1 absolute right-3 bottom-3 rounded-full bg-primary border-black/70 px-3 py-1 text-xs font-medium text-white backdrop-blur"
+                  >
+                    Edit <Edit className="size-4" />
+                  </Link>
+                )}
             </div>
 
             <CardHeader className="space-y-1 pb-2">
@@ -247,7 +261,7 @@ export default function CoursesDB({
                   👥 {course.enrollmentsCount}
                 </span>
                 <span className="flex items-center gap-1.5">
-                <Gauge className="size-4" /> {course.level}
+                  <Gauge className="size-4" /> {course.level}
                 </span>
               </div>
 
