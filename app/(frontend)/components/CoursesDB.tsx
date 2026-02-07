@@ -240,8 +240,9 @@ export default function CoursesDB({
                 <span>{course.instructorName}</span>
                 
 
-               
+               {course?.category &&
                 <Badge variant='outline' >  {course.category} </Badge>
+               }
           
               </div>
             </CardHeader>
@@ -270,7 +271,7 @@ export default function CoursesDB({
                   👥 {course.enrollmentsCount}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Gauge className="size-4" /> {course.level}
+                  <Gauge className="size-4" /> {course?.level}
                 </span>
               </div>
 
