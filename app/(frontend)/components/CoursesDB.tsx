@@ -238,13 +238,22 @@ export default function CoursesDB({
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <User className="h-3.5 w-3.5" />
                 <span>{course.instructorName}</span>
+                
+
+               
+                <Badge variant='outline' >  {course.category} </Badge>
+          
               </div>
             </CardHeader>
 
             <CardContent className="space-y-3">
+          
+
               <p className="line-clamp-2 text-sm text-muted-foreground">
                 {course.description}
               </p>
+
+
 
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1.5">
