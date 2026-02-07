@@ -32,8 +32,9 @@ export async function POST(req: Request) {
     userRoleType = await db.query.instructorsSchema.findFirst({
       where: eq(instructorsSchema.userId, user.id)
     });
-  } else if (user.role =='STUDENT') {
-    userRoleType = await db.query.userSchema.findFirst({
+  } 
+  else if (user.role =='STUDENT') {
+    userRoleType = await db.query.studentSchema.findFirst({
       where: eq(studentSchema.userId, user.id)
     });
   }
